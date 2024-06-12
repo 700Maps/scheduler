@@ -1,0 +1,76 @@
+html {
+    font-size: 22px;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    background-color: black;
+    color: white;
+}
+
+table,caption,th,tr,td {
+    border-collapse: collapse;
+}
+
+td {
+    border: 2px solid white;
+    height: 100px;
+    width: 160px;
+    position: relative;
+}
+
+th {
+    border: 2px solid white;
+    height: 30px;
+    width: 160px;
+}
+
+button {
+    width: 200px;
+    height: 80px;
+    color: white;
+    text-shadow: 2px 2px black;
+    background: linear-gradient(120deg, purple, pink);
+    border: 2px solid white;
+    cursor: pointer;
+    border-radius: 2%;
+    font-size: 25px;
+    font-family: cursive;
+
+    transition: width 0.5s ease-out, height 0.5s ease-out;
+}
+
+button:hover {
+    background: linear-gradient(120deg, rgb(181, 3, 181), rgb(248, 143, 161));
+    border: 5px solid white;
+    width: 230px;
+    height: 110px;
+    font-size: 35px;
+
+    transition: width 0.2s ease-out, height 0.2s ease-out;
+}
+.numberDay {
+    opacity: 80%;
+    position:absolute;
+    top: 5px;
+    left: 5px;
+}
+
+.dayTitle {
+    text-align: center;
+}
+
+.unusedSpace {
+    background-color: rgba(128, 128, 128, 0.283);
+}
+
+.currentDay {
+    background-color: rgba(0, 128, 0, 0.401) !important;
+}
+
+.markedDay {
+    background-color: rgba(206, 2, 2, 0.538);
+}

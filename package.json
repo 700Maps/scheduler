@@ -1,0 +1,28 @@
+{
+  "name": "scheduler",
+  "productName": "scheduler",
+  "version": "1.0.0",
+  "description": "Create and manage a helpful calender",
+  "main": "main.js",
+  "build": {
+    "appId": "Scheduler",
+    "icon": "img/icon.ico"
+  },
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "repository": {
+    "type": "git",
+    "url": "none"
+  },
+  "keywords": [
+    "x"
+  ],
+  "author": "700Maps",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^30.0.9",
+    "electron-builder": "^24.13.3"
+  }
+}

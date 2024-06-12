@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor</title>
+
+    <style>
+        html {
+            color: white;
+            background: black;
+            font-family: cursive;
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="protectScreen" style="display: block;">
+        <center>
+            <h1>Editing is password protected</h1>
+            
+            <input type="text" placeholder="Password" id="userInputedPassword">
+            <br><br>
+            <button id="unlockEditor">Unlock</button>
+        </center>
+    </div>
+    <div id="editorScreen" style="display: none;">
+        <center>
+            <h1>Create highlighted days</h1>
+            Day <input id="markedDay" type="number" placeholder="13"> <br>
+            Message <input id="markedDayMessage" type="text" placeholder="Pay day">
+            <br><br>
+            <button id="markDay">Push highlight</button>
+
+            <br><br>
+            <hr>
+
+            <h1>Remove highlighted days</h1>
+
+            <div id="arrayDisplay"></div>
+
+            <input type="number" placeholder="List number" id="removeNumber">
+
+            <button id="unmarkDay">Remove highlight</button> <button id="clearMarkedDays">Clear all</button>
+
+            <br><br>
+            <hr>
+
+            <h1>Password settings</h1>
+            Require password <input id="requirePassword" type="checkbox">
+            <br>
+            Current password <input id="password" type="text">
+            <br><br>
+            <button id="save">Save password settings</button>
+
+            <br><br>
+            <hr>
+
+            <button id="">Open calender</button>
+        </center>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            //Get correct screen
+            if (localStorage.getItem("scheduler_isEditingProtected") != 'true') {
+                document.getElementById('protectScreen').style.display = 'none'
+                document.getElementById('editorScreen').style.display = 'block'
+
+                if (localStorage.getItem('scheduler_editerPassword')) {
+                    document.getElementById('password').value = localStorage.getItem('scheduler_editerPassword')
+                }
+            }
+
+            //Save options
+            document.getElementById('save').addEventListener('click', () => {
+                localStorage.setItem('scheduler_editerPassword', document.getElementById('password').value)
+
+                if (document.getElementById('requirePassword').checked) {
+                    localStorage.setItem('scheduler_isEditingProtected', true)
+                } else {
+                    localStorage.setItem('scheduler_isEditingProtected', false)
+                }
+            })
+
+            //Unlock when given password
+            document.getElementById('unlockEditor').addEventListener('click', () => {
+                if (document.getElementById('userInputedPassword').value == localStorage.getItem('scheduler_editerPassword')) {
+                    document.getElementById('requirePassword').checked = true
+                    document.getElementById('password').value = localStorage.getItem('scheduler_editerPassword')
+
+                    document.getElementById('protectScreen').style.display = 'none'
+                    document.getElementById('editorScreen').style.display = 'block'
+                }
+            })
+
+            tempArray = []
+
+            if (localStorage.getItem('markedDays')) {
+                tempArray = JSON.parse(localStorage.getItem('markedDays'))
+
+                for (let i = 0; i < tempArray.length; i++) {
+                    document.getElementById('arrayDisplay').innerHTML += `<u>- ${i} - </u> <br> Day ${tempArray[i][1]} <br> ${tempArray[i][0]} <br><br>`
+                }
+            }
+            
+
+            document.getElementById("markDay").addEventListener("click", () => {
+                x = document.getElementById('markedDay').value
+                y = document.getElementById('markedDayMessage').value
+
+                tempArray.push([y,x])
+                localStorage.setItem('markedDays', JSON.stringify(tempArray))
+
+                document.getElementById('arrayDisplay').innerHTML = ''
+                for (let i = 0; i < tempArray.length; i++) {
+                    document.getElementById('arrayDisplay').innerHTML += `<u>- ${i} - </u> <br> Day ${tempArray[i][1]} <br> ${tempArray[i][0]} <br><br>`
+                }
+            })
+
+            document.getElementById('unmarkDay').addEventListener('click', () => {
+                if (document.getElementById('removeNumber').value) {
+                    tempArray.splice(document.getElementById('removeNumber').value, 1)
+                    localStorage.setItem('markedDays', JSON.stringify(tempArray))
+
+                    document.getElementById('arrayDisplay').innerHTML = ''
+                    for (let i = 0; i < tempArray.length; i++) {
+                        document.getElementById('arrayDisplay').innerHTML += `<u>- ${i} - </u> <br> Day ${tempArray[i][1]} <br> ${tempArray[i][0]} <br><br>`
+                    }
+                }
+            })
+
+            document.getElementById('clearMarkedDays').addEventListener('click', () => {
+                tempArray = []
+                localStorage.setItem('markedDays', JSON.stringify(tempArray))
+                document.getElementById('arrayDisplay').innerHTML = ''
+            })
+        })
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key == 'p' || e.key == "P") {
+                console.log(JSON.parse(localStorage.getItem('markedDays')))
+            }
+        })
+    </script>
+</body>
+</html>
